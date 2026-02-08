@@ -9,6 +9,9 @@ app.get('/',(req, res)=> {
 const tarefasRouter = require('./routes/tarefas');
 app.use('/tarefas', tarefasRouter);
 
+const authRouter = require('./routes/auth');
+app.use('/auth', authRouter);
+
 app.listen(3000, ()=>{
     console.log('Servidor rodando na porta 3000')
 });

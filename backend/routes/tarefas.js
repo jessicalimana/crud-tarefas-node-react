@@ -1,9 +1,11 @@
 const express = require('express');
+const auth = require('../middleware/authMiddleware');
 const router = express.Router();
 const Tarefa = require('../models/Tarefa');
+const authMiddleware = require('../middleware/authMiddleware');
 
 //GET - estou usando para listar todas minhas tarefas
-router.get('/', async (req, res)=>{
+router.get('/', authMiddleware, async (req, res)=>{
     try {
         const tarefas = await Tarefa.find();
         res.json(tarefas);
@@ -13,7 +15,7 @@ router.get('/', async (req, res)=>{
 });
 
 //POST - vou usar para criar uma nova tarefa
-router.post('/', async (req, res)=> {
+router.post('/', authMiddleware , async (req, res)=> {
     const tarefa = new Tarefa ({
         titulo: req.body.titulo
     });
@@ -26,7 +28,7 @@ router.post('/', async (req, res)=> {
 });
 
 //PUT - com esse vou atualizar uma tarefa para concluida ou nao
-router.put('/:id', async (req, res)=> {
+router.put('/:id', authMiddleware, async (req, res)=> {
     try {
         const tarefa = await Tarefa.findByIdAndUpdate(
             req.params.id,
@@ -45,7 +47,7 @@ router.put('/:id', async (req, res)=> {
 });
 
 //DELETE
-router.delete('/:id', async (req, res)=>{
+router.delete('/:id', authMiddleware, async (req, res)=>{
     try {
         const tarefa = await Tarefa.findByIdAndDelete(req.params.id);
 
